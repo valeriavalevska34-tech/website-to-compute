@@ -1,0 +1,1060 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synergy Art Studio - Pricing Calculator</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Noto+Serif+Display:wght@400;600&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Serif', serif;
+      background: #6B4423;
+      min-height: 100%;
+      width: 100%;
+      padding: 2rem 1rem;
+    }
+
+    html {
+      height: 100%;
+      width: 100%;
+    }
+
+    .calculator-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .company-name {
+      font-family: 'Noto Serif', serif;
+      font-weight: 700;
+      font-size: 2.8rem;
+      color: #3D2518;
+      margin: 0 0 0.5rem 0;
+      letter-spacing: 1px;
+    }
+
+    .tagline {
+      font-family: 'Noto Serif Display', serif;
+      font-size: 1.2rem;
+      color: #3D2518;
+      margin: 0 0 1.5rem 0;
+      font-style: italic;
+    }
+
+    .calculator-title {
+      font-family: 'Noto Serif', serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #3D2518;
+      margin: 1rem 0 0 0;
+    }
+
+    .content {
+      padding: 2.5rem 2rem;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif', serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: #6B4423;
+      margin: 2rem 0 1rem 0;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .service-card {
+      background: #f7fafc;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .service-card:hover {
+      border-color: #E9967A;
+      box-shadow: 0 4px 12px rgba(233, 150, 122, 0.15);
+    }
+
+    .service-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .service-icon {
+      font-size: 1.8rem;
+      color: #E9967A;
+    }
+
+    .service-name {
+      font-family: 'Noto Serif', serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: #6B4423;
+      margin: 0;
+    }
+
+    .service-description {
+      font-size: 0.9rem;
+      color: #718096;
+      margin-top: 0.25rem;
+    }
+
+    .slider-container {
+      margin: 1.5rem 0;
+    }
+
+    .slider-label {
+      font-size: 1rem;
+      color: #4a5568;
+      margin-bottom: 0.75rem;
+      display: block;
+      font-weight: 500;
+    }
+
+    .slider {
+      width: 100%;
+      height: 8px;
+      border-radius: 10px;
+      background: #e2e8f0;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #6B4423;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(107, 68, 35, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      box-shadow: 0 4px 12px rgba(107, 68, 35, 0.5);
+    }
+
+    .slider::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #6B4423;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 8px rgba(107, 68, 35, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .slider::-moz-range-thumb:hover {
+      transform: scale(1.15);
+      box-shadow: 0 4px 12px rgba(107, 68, 35, 0.5);
+    }
+
+    .value-display {
+      text-align: center;
+      margin-top: 0.75rem;
+      font-weight: 600;
+      color: #2d3748;
+      font-size: 1.05rem;
+    }
+
+    .price-section {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid #e2e8f0;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      font-size: 1.05rem;
+    }
+
+    .price-label {
+      color: #4a5568;
+      font-weight: 500;
+    }
+
+    .price-value {
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: #6B4423;
+    }
+
+    .price-original {
+      text-decoration: line-through;
+      color: #a0aec0;
+      font-size: 1rem;
+      margin-right: 0.5rem;
+    }
+
+    .price-discounted {
+      color: #48bb78;
+      font-weight: 700;
+      font-size: 1.15rem;
+    }
+
+    .special-offer-box {
+      background: linear-gradient(135deg, #6B4423 0%, #8B5A3C 100%);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      box-shadow: 0 4px 15px rgba(107, 68, 35, 0.3);
+    }
+
+    .special-offer-badge {
+      background: #FFD700;
+      color: #3D2518;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 1rem;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+    }
+
+    .special-offer-content {
+      color: white;
+    }
+
+    .special-offer-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: #FFD700;
+    }
+
+    .special-offer-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0;
+    }
+
+    .special-offer-list li {
+      padding: 0.4rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .special-offer-list li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #FFD700;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .special-price {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #FFD700;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .special-savings {
+      text-align: center;
+      color: #FFD700;
+      font-size: 0.9rem;
+      font-style: italic;
+      margin-top: 0.5rem;
+    }
+
+    .total-section {
+      background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+
+    .total-label {
+      font-size: 1.3rem;
+      color: #4a5568;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+
+    .total-price {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: #6B4423;
+      margin: 0.5rem 0;
+    }
+
+    .savings-badge {
+      background: #48bb78;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: inline-block;
+      margin-top: 1rem;
+      box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+    }
+
+    .book-button {
+      width: 100%;
+      background: #48bb78;
+      color: white;
+      border: none;
+      padding: 1.5rem 2rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      transition: all 0.3s ease;
+      letter-spacing: 1.5px;
+      box-shadow: 0 6px 20px rgba(72, 187, 120, 0.35);
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      font-family: 'Noto Serif', serif;
+    }
+
+    .book-button:hover {
+      background: #38a169;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(72, 187, 120, 0.45);
+    }
+
+    .book-button:active {
+      transform: translateY(0);
+    }
+
+    .footer {
+      background: #f8f9fa;
+      padding: 2rem;
+      text-align: center;
+      border-top: 2px solid #e2e8f0;
+    }
+
+    .footer-text {
+      color: #718096;
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    @media (max-width: 640px) {
+      .calculator-container {
+        margin: 0.5rem;
+        border-radius: 16px;
+      }
+
+      .header {
+        padding: 2rem 1.5rem;
+      }
+
+      .company-name {
+        font-size: 2rem;
+      }
+
+      .tagline {
+        font-size: 1rem;
+      }
+
+      .calculator-title {
+        font-size: 1.2rem;
+      }
+
+      .content {
+        padding: 1.5rem;
+      }
+
+      .total-price {
+        font-size: 2.5rem;
+      }
+
+      .book-button {
+        font-size: 1.1rem;
+        padding: 1.25rem 1.5rem;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <main>
+   <div class="calculator-container">
+    <header class="header">
+     <h1 class="company-name" id="company-name">Synergy Art Studio</h1>
+     <p class="tagline" id="tagline">yoga dance voice rent space - for you</p>
+     <h2 class="calculator-title">Pricing Calculator</h2>
+    </header>
+    <div class="content"><!-- Classes Section -->
+     <h3 class="section-title">Classes</h3><!-- Yoga -->
+     <div class="service-card">
+      <div class="service-header"><span class="service-icon">🧘‍♀️</span>
+       <h4 class="service-name">Yoga</h4>
+      </div>
+      <div class="slider-container"><label class="slider-label" for="yoga-slider">Sessions per month:</label> <input type="range" min="0" max="20" value="0" class="slider" id="yoga-slider">
+       <div class="value-display" id="yoga-value">
+        0 sessions
+       </div>
+      </div>
+      <div class="price-section" id="yoga-price" style="display: none;">
+       <div class="price-row"><span class="price-label">Price per session:</span> <span id="yoga-price-display"></span>
+       </div>
+       <div class="price-row"><span class="price-label">Total:</span> <span id="yoga-total-display"></span>
+       </div>
+      </div>
+     </div><!-- Pilates -->
+     <div class="service-card">
+      <div class="service-header"><span class="service-icon">🤸‍♀️</span>
+       <h4 class="service-name">Pilates</h4>
+      </div>
+      <div class="slider-container"><label class="slider-label" for="pilates-slider">Sessions per month:</label> <input type="range" min="0" max="20" value="0" class="slider" id="pilates-slider">
+       <div class="value-display" id="pilates-value">
+        0 sessions
+       </div>
+      </div>
+      <div class="price-section" id="pilates-price" style="display: none;">
+       <div class="price-row"><span class="price-label">Price per session:</span> <span id="pilates-price-display"></span>
+       </div>
+       <div class="price-row"><span class="price-label">Total:</span> <span id="pilates-total-display"></span>
+       </div>
+      </div>
+     </div><!-- Stretching -->
+     <div class="service-card">
+      <div class="service-header"><span class="service-icon">🏃‍♀️</span>
+       <h4 class="service-name">Stretching</h4>
+      </div>
+      <div class="slider-container"><label class="slider-label" for="stretching-slider">Sessions per month:</label> <input type="range" min="0" max="20" value="0" class="slider" id="stretching-slider">
+       <div class="value-display" id="stretching-value">
+        0 sessions
+       </div>
+      </div>
+      <div class="price-section" id="stretching-price" style="display: none;">
+       <div class="price-row"><span class="price-label">Price per session:</span> <span id="stretching-price-display"></span>
+       </div>
+       <div class="price-row"><span class="price-label">Total:</span> <span id="stretching-total-display"></span>
+       </div>
+      </div>
+     </div><!-- Dance -->
+     <div class="service-card">
+      <div class="service-header"><span class="service-icon">💃</span>
+       <h4 class="service-name">Dance</h4>
+      </div>
+      <div class="slider-container"><label class="slider-label" for="dance-slider">Sessions per month:</label> <input type="range" min="0" max="20" value="0" class="slider" id="dance-slider">
+       <div class="value-display" id="dance-value">
+        0 sessions
+       </div>
+      </div>
+      <div class="price-section" id="dance-price" style="display: none;">
+       <div class="price-row"><span class="price-label">Price per session:</span> <span id="dance-price-display"></span>
+       </div>
+       <div class="price-row"><span class="price-label">Total:</span> <span id="dance-total-display"></span>
+       </div>
+      </div>
+     </div><!-- Voice Top Trainer -->
+     <div class="service-card">
+      <div class="service-header"><span class="service-icon">🎤</span>
+       <h4 class="service-name">Voice Lessons - Top Trainer</h4>
+      </div>
+      <div class="slider-container"><label class="slider-label" for="voice-top-slider">Sessions per month:</label> <input type="range" min="0" max="20" value="0" class="slider" id="voice-top-slider">
+       <div class="value-display" id="voice-top-value">
+        0 sessions
+       </div>
+      </div>
+      <div class="price-section" id="voice-top-price" style="display: none;">
+       <div class="price-row"><span class="price-label">Price per session:</span> <span id="voice-top-price-display"></span>
+       </div>
+       <div class="price-row"><span class="price-label">Total:</span> <span id="voice-top-total-display"></span>
+       </div>
+      </div>
+     </div><!-- Voice Standard Trainer -->
+     <div class="service-card">
+      <div class="service-header"><span class="service-icon">🎵</span>
+       <h4 class="service-name">Voice Lessons - Standard Trainer</h4>
+      </div>
+      <div class="slider-container"><label class="slider-label" for="voice-standard-slider">Sessions per month:</label> <input type="range" min="0" max="20" value="0" class="slider" id="voice-standard-slider">
+       <div class="value-display" id="voice-standard-value">
+        0 sessions
+       </div>
+      </div>
+      <div class="price-section" id="voice-standard-price" style="display: none;">
+       <div class="price-row"><span class="price-label">Price per session:</span> <span id="voice-standard-price-display"></span>
+       </div>
+       <div class="price-row"><span class="price-label">Total:</span> <span id="voice-standard-total-display"></span>
+       </div>
+      </div>
+     </div><!-- Psychology Consultations -->
+     <div class="service-card">
+      <div class="service-header"><span class="service-icon">🧠</span>
+       <h4 class="service-name">Psychology Consultations</h4>
+      </div>
+      <div class="slider-container"><label class="slider-label" for="psychology-slider">Hours per month:</label> <input type="range" min="0" max="20" value="0" class="slider" id="psychology-slider">
+       <div class="value-display" id="psychology-value">
+        0 hours
+       </div>
+      </div>
+      <div class="price-section" id="psychology-price" style="display: none;">
+       <div class="price-row"><span class="price-label">Price per hour:</span> <span class="price-value">€25</span>
+       </div>
+       <div class="price-row"><span class="price-label">Total:</span> <span class="price-value" id="psychology-total">€0</span>
+       </div>
+      </div>
+     </div><!-- Rentals Section -->
+     <h3 class="section-title">Studio Rentals</h3><!-- Large Studio -->
+     <div class="service-card">
+      <div class="service-header"><span class="service-icon">🏛️</span>
+       <h4 class="service-name">Large Studio</h4>
+      </div>
+      <div class="special-offer-box">
+       <div class="special-offer-badge">
+        ⭐ SPECIAL OFFER ⭐
+       </div>
+       <div class="special-offer-content">
+        <div class="special-offer-title">
+         3-Hour Event Package
+        </div>
+        <ul class="special-offer-list">
+         <li>3 hours of studio rental</li>
+         <li>Tables, chairs &amp; tableware included</li>
+         <li>Complimentary Prosecco</li>
+         <li>Professional event space setup</li>
+         <li>Perfect for workshops, parties &amp; celebrations</li>
+        </ul>
+        <div class="special-price">
+         Only €100
+        </div>
+        <div class="special-savings">
+         (Save €50 compared to regular pricing!)
+        </div>
+       </div>
+      </div>
+      <p class="service-description">Regular rate: €30/hour + €20 furniture rental</p>
+      <p class="service-description">Additional hours beyond package: €25/hour</p>
+      <div class="slider-container"><label class="slider-label" for="large-studio-slider">Hours per month:</label> <input type="range" min="0" max="40" value="0" class="slider" id="large-studio-slider">
+       <div class="value-display" id="large-studio-value">
+        0 hours
+       </div>
+      </div>
+      <div class="price-section" id="large-studio-price" style="display: none;">
+       <div class="price-row"><span class="price-label">Configuration:</span> <span class="price-value" id="large-studio-config"></span>
+       </div>
+       <div class="price-row"><span class="price-label">Total:</span> <span id="large-studio-total-display"></span>
+       </div>
+      </div>
+     </div><!-- Trainer's Gym -->
+     <div class="service-card">
+      <div class="service-header"><span class="service-icon">💪</span>
+       <h4 class="service-name">Trainer's Gym</h4>
+      </div>
+      <p class="service-description">€25/hour (€22/hour for 15+ hours/month)</p>
+      <div class="slider-container"><label class="slider-label" for="trainer-gym-slider">Hours per month:</label> <input type="range" min="0" max="50" value="0" class="slider" id="trainer-gym-slider">
+       <div class="value-display" id="trainer-gym-value">
+        0 hours
+       </div>
+      </div>
+      <div class="price-section" id="trainer-gym-price" style="display: none;">
+       <div class="price-row"><span class="price-label">Price per hour:</span> <span id="trainer-gym-price-display"></span>
+       </div>
+       <div class="price-row"><span class="price-label">Total:</span> <span id="trainer-gym-total-display"></span>
+       </div>
+      </div>
+     </div><!-- Photo Session Room -->
+     <div class="service-card">
+      <div class="service-header"><span class="service-icon">📸</span>
+       <h4 class="service-name">Photo Session Room</h4>
+      </div>
+      <p class="service-description">€25/hour (€22/hour for 3+ hours, €20/hour for 5+ hours)</p>
+      <div class="slider-container"><label class="slider-label" for="photo-room-slider">Hours:</label> <input type="range" min="0" max="10" value="0" class="slider" id="photo-room-slider">
+       <div class="value-display" id="photo-room-value">
+        0 hours
+       </div>
+      </div>
+      <div class="price-section" id="photo-room-price" style="display: none;">
+       <div class="price-row"><span class="price-label">Price per hour:</span> <span id="photo-room-price-display"></span>
+       </div>
+       <div class="price-row"><span class="price-label">Total:</span> <span id="photo-room-total-display"></span>
+       </div>
+      </div>
+     </div><!-- Psychology/Podcast Room -->
+     <div class="service-card">
+      <div class="service-header"><span class="service-icon">🎙️</span>
+       <h4 class="service-name">Psychology/Podcast/Meeting Room</h4>
+      </div>
+      <p class="service-description">€15/hour</p>
+      <div class="slider-container"><label class="slider-label" for="podcast-room-slider">Hours per month:</label> <input type="range" min="0" max="40" value="0" class="slider" id="podcast-room-slider">
+       <div class="value-display" id="podcast-room-value">
+        0 hours
+       </div>
+      </div>
+      <div class="price-section" id="podcast-room-price" style="display: none;">
+       <div class="price-row"><span class="price-label">Price per hour:</span> <span class="price-value">€15</span>
+       </div>
+       <div class="price-row"><span class="price-label">Total:</span> <span class="price-value" id="podcast-room-total">€0</span>
+       </div>
+      </div>
+     </div><!-- Small Studio for Music Lessons -->
+     <div class="service-card">
+      <div class="service-header"><span class="service-icon">🎹</span>
+       <h4 class="service-name">Small Studio for Music Lessons</h4>
+      </div>
+      <p class="service-description">€15/hour (€12/hour for 15+ hours/month)</p>
+      <div class="slider-container"><label class="slider-label" for="small-studio-slider">Hours per month:</label> <input type="range" min="0" max="50" value="0" class="slider" id="small-studio-slider">
+       <div class="value-display" id="small-studio-value">
+        0 hours
+       </div>
+      </div>
+      <div class="price-section" id="small-studio-price" style="display: none;">
+       <div class="price-row"><span class="price-label">Price per hour:</span> <span id="small-studio-price-display"></span>
+       </div>
+       <div class="price-row"><span class="price-label">Total:</span> <span id="small-studio-total-display"></span>
+       </div>
+      </div>
+     </div><!-- Total Section -->
+     <div class="total-section">
+      <div class="total-label">
+       Total Monthly Price:
+      </div>
+      <div class="total-price" id="total-price">
+       €0
+      </div>
+      <div id="savings-display"></div><a href="https://example.com/book" class="book-button" id="booking-button" target="_blank" rel="noopener noreferrer">BOOK NOW</a>
+     </div>
+    </div>
+    <footer class="footer">
+     <p class="footer-text">Contact us to reserve your sessions and studio time</p>
+    </footer>
+   </div>
+  </main>
+  <script>
+    const defaultConfig = {
+      company_name: 'Synergy Art Studio',
+      tagline: 'yoga dance voice rent space - for you',
+      booking_link: 'https://example.com/book'
+    };
+
+    const prices = {
+      yoga: { standard: 12, discount: 10.8 },
+      pilates: { standard: 12, discount: 10.8 },
+      stretching: { standard: 13, discount: 11.7 },
+      dance: { standard: 15, discount: 13.5 },
+      voiceTop: { standard: 35, discount: 30 },
+      voiceStandard: { standard: 20, discount: 15 },
+      psychology: 25,
+      largeStudio: { hourly: 30, furniture: 20, special: 100, additional: 25 },
+      trainerGym: { standard: 25, discount: 22 },
+      photoRoom: { standard: 25, tier2: 22, tier3: 20 },
+      podcastRoom: 15,
+      smallStudio: { standard: 15, discount: 12 }
+    };
+
+    function updateCalculation() {
+      const yoga = parseInt(document.getElementById('yoga-slider').value);
+      const pilates = parseInt(document.getElementById('pilates-slider').value);
+      const stretching = parseInt(document.getElementById('stretching-slider').value);
+      const dance = parseInt(document.getElementById('dance-slider').value);
+      const voiceTop = parseInt(document.getElementById('voice-top-slider').value);
+      const voiceStandard = parseInt(document.getElementById('voice-standard-slider').value);
+      const psychology = parseInt(document.getElementById('psychology-slider').value);
+      const largeStudio = parseInt(document.getElementById('large-studio-slider').value);
+      const trainerGym = parseInt(document.getElementById('trainer-gym-slider').value);
+      const photoRoom = parseInt(document.getElementById('photo-room-slider').value);
+      const podcastRoom = parseInt(document.getElementById('podcast-room-slider').value);
+      const smallStudio = parseInt(document.getElementById('small-studio-slider').value);
+
+      let total = 0;
+      let totalSavings = 0;
+
+      // Yoga
+      document.getElementById('yoga-value').textContent = `${yoga} sessions`;
+      if (yoga > 0) {
+        const hasDiscount = yoga >= 5;
+        const pricePerSession = hasDiscount ? prices.yoga.discount : prices.yoga.standard;
+        const yogaTotal = yoga * pricePerSession;
+        const originalTotal = yoga * prices.yoga.standard;
+        total += yogaTotal;
+        
+        document.getElementById('yoga-price').style.display = 'block';
+        document.getElementById('yoga-price-display').innerHTML = hasDiscount 
+          ? `<span class="price-original">€${prices.yoga.standard}</span><span class="price-discounted">€${prices.yoga.discount}</span>`
+          : `<span class="price-value">€${prices.yoga.standard}</span>`;
+        
+        document.getElementById('yoga-total-display').innerHTML = hasDiscount
+          ? `<span class="price-original">€${originalTotal.toFixed(2)}</span><span class="price-discounted">€${yogaTotal.toFixed(2)}</span>`
+          : `<span class="price-value">€${yogaTotal.toFixed(2)}</span>`;
+        
+        if (hasDiscount) {
+          totalSavings += yoga * (prices.yoga.standard - prices.yoga.discount);
+        }
+      } else {
+        document.getElementById('yoga-price').style.display = 'none';
+      }
+
+      // Pilates
+      document.getElementById('pilates-value').textContent = `${pilates} sessions`;
+      if (pilates > 0) {
+        const hasDiscount = pilates >= 5;
+        const pricePerSession = hasDiscount ? prices.pilates.discount : prices.pilates.standard;
+        const pilatesTotal = pilates * pricePerSession;
+        const originalTotal = pilates * prices.pilates.standard;
+        total += pilatesTotal;
+        
+        document.getElementById('pilates-price').style.display = 'block';
+        document.getElementById('pilates-price-display').innerHTML = hasDiscount 
+          ? `<span class="price-original">€${prices.pilates.standard}</span><span class="price-discounted">€${prices.pilates.discount}</span>`
+          : `<span class="price-value">€${prices.pilates.standard}</span>`;
+        
+        document.getElementById('pilates-total-display').innerHTML = hasDiscount
+          ? `<span class="price-original">€${originalTotal.toFixed(2)}</span><span class="price-discounted">€${pilatesTotal.toFixed(2)}</span>`
+          : `<span class="price-value">€${pilatesTotal.toFixed(2)}</span>`;
+        
+        if (hasDiscount) {
+          totalSavings += pilates * (prices.pilates.standard - prices.pilates.discount);
+        }
+      } else {
+        document.getElementById('pilates-price').style.display = 'none';
+      }
+
+      // Stretching
+      document.getElementById('stretching-value').textContent = `${stretching} sessions`;
+      if (stretching > 0) {
+        const hasDiscount = stretching >= 5;
+        const pricePerSession = hasDiscount ? prices.stretching.discount : prices.stretching.standard;
+        const stretchingTotal = stretching * pricePerSession;
+        const originalTotal = stretching * prices.stretching.standard;
+        total += stretchingTotal;
+        
+        document.getElementById('stretching-price').style.display = 'block';
+        document.getElementById('stretching-price-display').innerHTML = hasDiscount 
+          ? `<span class="price-original">€${prices.stretching.standard}</span><span class="price-discounted">€${prices.stretching.discount}</span>`
+          : `<span class="price-value">€${prices.stretching.standard}</span>`;
+        
+        document.getElementById('stretching-total-display').innerHTML = hasDiscount
+          ? `<span class="price-original">€${originalTotal.toFixed(2)}</span><span class="price-discounted">€${stretchingTotal.toFixed(2)}</span>`
+          : `<span class="price-value">€${stretchingTotal.toFixed(2)}</span>`;
+        
+        if (hasDiscount) {
+          totalSavings += stretching * (prices.stretching.standard - prices.stretching.discount);
+        }
+      } else {
+        document.getElementById('stretching-price').style.display = 'none';
+      }
+
+      // Dance
+      document.getElementById('dance-value').textContent = `${dance} sessions`;
+      if (dance > 0) {
+        const hasDiscount = dance >= 5;
+        const pricePerSession = hasDiscount ? prices.dance.discount : prices.dance.standard;
+        const danceTotal = dance * pricePerSession;
+        const originalTotal = dance * prices.dance.standard;
+        total += danceTotal;
+        
+        document.getElementById('dance-price').style.display = 'block';
+        document.getElementById('dance-price-display').innerHTML = hasDiscount 
+          ? `<span class="price-original">€${prices.dance.standard}</span><span class="price-discounted">€${prices.dance.discount}</span>`
+          : `<span class="price-value">€${prices.dance.standard}</span>`;
+        
+        document.getElementById('dance-total-display').innerHTML = hasDiscount
+          ? `<span class="price-original">€${originalTotal.toFixed(2)}</span><span class="price-discounted">€${danceTotal.toFixed(2)}</span>`
+          : `<span class="price-value">€${danceTotal.toFixed(2)}</span>`;
+        
+        if (hasDiscount) {
+          totalSavings += dance * (prices.dance.standard - prices.dance.discount);
+        }
+      } else {
+        document.getElementById('dance-price').style.display = 'none';
+      }
+
+      // Voice Top
+      document.getElementById('voice-top-value').textContent = `${voiceTop} sessions`;
+      if (voiceTop > 0) {
+        const hasDiscount = voiceTop >= 4;
+        const pricePerSession = hasDiscount ? prices.voiceTop.discount : prices.voiceTop.standard;
+        const voiceTopTotal = voiceTop * pricePerSession;
+        const originalTotal = voiceTop * prices.voiceTop.standard;
+        total += voiceTopTotal;
+        
+        document.getElementById('voice-top-price').style.display = 'block';
+        document.getElementById('voice-top-price-display').innerHTML = hasDiscount 
+          ? `<span class="price-original">€${prices.voiceTop.standard}</span><span class="price-discounted">€${prices.voiceTop.discount}</span>`
+          : `<span class="price-value">€${prices.voiceTop.standard}</span>`;
+        
+        document.getElementById('voice-top-total-display').innerHTML = hasDiscount
+          ? `<span class="price-original">€${originalTotal.toFixed(2)}</span><span class="price-discounted">€${voiceTopTotal.toFixed(2)}</span>`
+          : `<span class="price-value">€${voiceTopTotal.toFixed(2)}</span>`;
+        
+        if (hasDiscount) {
+          totalSavings += voiceTop * (prices.voiceTop.standard - prices.voiceTop.discount);
+        }
+      } else {
+        document.getElementById('voice-top-price').style.display = 'none';
+      }
+
+      // Voice Standard
+      document.getElementById('voice-standard-value').textContent = `${voiceStandard} sessions`;
+      if (voiceStandard > 0) {
+        const hasDiscount = voiceStandard >= 4;
+        const pricePerSession = hasDiscount ? prices.voiceStandard.discount : prices.voiceStandard.standard;
+        const voiceStandardTotal = voiceStandard * pricePerSession;
+        const originalTotal = voiceStandard * prices.voiceStandard.standard;
+        total += voiceStandardTotal;
+        
+        document.getElementById('voice-standard-price').style.display = 'block';
+        document.getElementById('voice-standard-price-display').innerHTML = hasDiscount 
+          ? `<span class="price-original">€${prices.voiceStandard.standard}</span><span class="price-discounted">€${prices.voiceStandard.discount}</span>`
+          : `<span class="price-value">€${prices.voiceStandard.standard}</span>`;
+        
+        document.getElementById('voice-standard-total-display').innerHTML = hasDiscount
+          ? `<span class="price-original">€${originalTotal.toFixed(2)}</span><span class="price-discounted">€${voiceStandardTotal.toFixed(2)}</span>`
+          : `<span class="price-value">€${voiceStandardTotal.toFixed(2)}</span>`;
+        
+        if (hasDiscount) {
+          totalSavings += voiceStandard * (prices.voiceStandard.standard - prices.voiceStandard.discount);
+        }
+      } else {
+        document.getElementById('voice-standard-price').style.display = 'none';
+      }
+
+      // Psychology
+      document.getElementById('psychology-value').textContent = `${psychology} hours`;
+      if (psychology > 0) {
+        const psychologyTotal = psychology * prices.psychology;
+        total += psychologyTotal;
+        document.getElementById('psychology-price').style.display = 'block';
+        document.getElementById('psychology-total').textContent = `€${psychologyTotal}`;
+      } else {
+        document.getElementById('psychology-price').style.display = 'none';
+      }
+
+      // Large Studio
+      document.getElementById('large-studio-value').textContent = `${largeStudio} hours`;
+      if (largeStudio > 0) {
+        let largeStudioTotal = 0;
+        let originalTotal = 0;
+        let config = '';
+        let hasDiscount = false;
+        
+        if (largeStudio === 3) {
+          largeStudioTotal = prices.largeStudio.special;
+          originalTotal = 3 * (prices.largeStudio.hourly + prices.largeStudio.furniture);
+          config = 'Special 3hr package';
+          hasDiscount = true;
+          totalSavings += originalTotal - largeStudioTotal;
+        } else if (largeStudio < 3) {
+          largeStudioTotal = largeStudio * (prices.largeStudio.hourly + prices.largeStudio.furniture);
+          config = 'Hourly + furniture';
+        } else {
+          originalTotal = largeStudio * (prices.largeStudio.hourly + prices.largeStudio.furniture);
+          largeStudioTotal = prices.largeStudio.special + ((largeStudio - 3) * prices.largeStudio.additional);
+          config = '3hr package + additional';
+          hasDiscount = true;
+          totalSavings += (3 * (prices.largeStudio.hourly + prices.largeStudio.furniture)) - prices.largeStudio.special;
+        }
+        
+        total += largeStudioTotal;
+        document.getElementById('large-studio-price').style.display = 'block';
+        document.getElementById('large-studio-config').textContent = config;
+        
+        document.getElementById('large-studio-total-display').innerHTML = hasDiscount
+          ? `<span class="price-original">€${originalTotal}</span><span class="price-discounted">€${largeStudioTotal}</span>`
+          : `<span class="price-value">€${largeStudioTotal}</span>`;
+      } else {
+        document.getElementById('large-studio-price').style.display = 'none';
+      }
+
+      // Trainer Gym
+      document.getElementById('trainer-gym-value').textContent = `${trainerGym} hours`;
+      if (trainerGym > 0) {
+        const hasDiscount = trainerGym >= 15;
+        const pricePerHour = hasDiscount ? prices.trainerGym.discount : prices.trainerGym.standard;
+        const trainerGymTotal = trainerGym * pricePerHour;
+        const originalTotal = trainerGym * prices.trainerGym.standard;
+        total += trainerGymTotal;
+        
+        document.getElementById('trainer-gym-price').style.display = 'block';
+        document.getElementById('trainer-gym-price-display').innerHTML = hasDiscount 
+          ? `<span class="price-original">€${prices.trainerGym.standard}</span><span class="price-discounted">€${prices.trainerGym.discount}</span>`
+          : `<span class="price-value">€${prices.trainerGym.standard}</span>`;
+        
+        document.getElementById('trainer-gym-total-display').innerHTML = hasDiscount
+          ? `<span class="price-original">€${originalTotal}</span><span class="price-discounted">€${trainerGymTotal}</span>`
+          : `<span class="price-value">€${trainerGymTotal}</span>`;
+        
+        if (hasDiscount) {
+          totalSavings += trainerGym * (prices.trainerGym.standard - prices.trainerGym.discount);
+        }
+      } else {
+        document.getElementById('trainer-gym-price').style.display = 'none';
+      }
+
+      // Photo Room
+      document.getElementById('photo-room-value').textContent = `${photoRoom} hours`;
+      if (photoRoom > 0) {
+        let pricePerHour = prices.photoRoom.standard;
+        let originalPrice = prices.photoRoom.standard;
+        let hasDiscount = false;
+        
+        if (photoRoom >= 5) {
+          pricePerHour = prices.photoRoom.tier3;
+          hasDiscount = true;
+        } else if (photoRoom >= 3) {
+          pricePerHour = prices.photoRoom.tier2;
+          hasDiscount = true;
+        }
+        
+        const photoRoomTotal = photoRoom * pricePerHour;
+        const originalTotal = photoRoom * originalPrice;
+        total += photoRoomTotal;
+        
+        document.getElementById('photo-room-price').style.display = 'block';
+        document.getElementById('photo-room-price-display').innerHTML = hasDiscount 
+          ? `<span class="price-original">€${originalPrice}</span><span class="price-discounted">€${pricePerHour}</span>`
+          : `<span class="price-value">€${pricePerHour}</span>`;
+        
+        document.getElementById('photo-room-total-display').innerHTML = hasDiscount
+          ? `<span class="price-original">€${originalTotal}</span><span class="price-discounted">€${photoRoomTotal}</span>`
+          : `<span class="price-value">€${photoRoomTotal}</span>`;
+        
+        if (hasDiscount) {
+          totalSavings += photoRoom * (originalPrice - pricePerHour);
+        }
+      } else {
+        document.getElementById('photo-room-price').style.display = 'none';
+      }
+
+      // Podcast Room
+      document.getElementById('podcast-room-value').textContent = `${podcastRoom} hours`;
+      if (podcastRoom > 0) {
+        const podcastRoomTotal = podcastRoom * prices.podcastRoom;
+        total += podcastRoomTotal;
+        document.getElementById('podcast-room-price').style.display = 'block';
+        document.getElementById('podcast-room-total').textContent = `€${podcastRoomTotal}`;
+      } else {
+        document.getElementById('podcast-room-price').style.display = 'none';
+      }
+
+      // Small Studio
+      document.getElementById('small-studio-value').textContent = `${smallStudio} hours`;
+      if (smallStudio > 0) {
+        const hasDiscount = smallStudio >= 15;
+        const pricePerHour = hasDiscount ? prices.smallStudio.discount : prices.smallStudio.standard;
+        const smallStudioTotal = smallStudio * pricePerHour;
+        const originalTotal = smallStudio * prices.smallStudio.standard;
+        total += smallStudioTotal;
+        
+        document.getElementById('small-studio-price').style.display = 'block';
+        document.getElementById('small-studio-price-display').innerHTML = hasDiscount 
+          ? `<span class="price-original">€${prices.smallStudio.standard}</span><span class="price-discounted">€${prices.smallStudio.discount}</span>`
+          : `<span class="price-value">€${prices.smallStudio.standard}</span>`;
+        
+        document.getElementById('small-studio-total-display').innerHTML = hasDiscount
+          ? `<span class="price-original">€${originalTotal}</span><span class="price-discounted">€${smallStudioTotal}</span>`
+          : `<span class="price-value">€${smallStudioTotal}</span>`;
+        
+        if (hasDiscount) {
+          totalSavings += smallStudio * (prices.smallStudio.standard - prices.smallStudio.discount);
+        }
+      } else {
+        document.getElementById('small-studio-price').style.display = 'none';
+      }
+
+      // Total
+      document.getElementById('total-price').textContent = `€${total.toFixed(2)}`;
+      
+      if (totalSavings > 0) {
+        document.getElementById('savings-display').innerHTML = `<div class="savings-badge">💰 You save €${totalSavings.toFixed(2)}!</div>`;
+      } else {
+        document.getElementById('savings-display').innerHTML = '';
+      }
+    }
+
+    async function onConfigChange(config) {
+      const companyName = document.getElementById('company-name');
+      const tagline = document.getElementById('tagline');
+      const bookingButton = document.getElementById('booking-button');
+
+      if (companyName) companyName.textContent = config.company_name || defaultConfig.company_name;
+      if (tagline) tagline.textContent = config.tagline || defaultConfig.tagline;
+      
+      if (bookingButton) {
+        const bookingLink = config.booking_link || defaultConfig.booking_link;
+        bookingButton.href = bookingLink;
+      }
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["company_name", config.company_name || defaultConfig.company_name],
+        ["tagline", config.tagline || defaultConfig.tagline],
+        ["booking_link", config.booking_link || defaultConfig.booking_link]
+      ]);
+    }
+
+    // Event listeners
+    document.getElementById('yoga-slider').addEventListener('input', updateCalculation);
+    document.getElementById('pilates-slider').addEventListener('input', updateCalculation);
+    document.getElementById('stretching-slider').addEventListener('input', updateCalculation);
+    document.getElementById('dance-slider').addEventListener('input', updateCalculation);
+    document.getElementById('voice-top-slider').addEventListener('input', updateCalculation);
+    document.getElementById('voice-standard-slider').addEventListener('input', updateCalculation);
+    document.getElementById('psychology-slider').addEventListener('input', updateCalculation);
+    document.getElementById('large-studio-slider').addEventListener('input', updateCalculation);
+    document.getElementById('trainer-gym-slider').addEventListener('input', updateCalculation);
+    document.getElementById('photo-room-slider').addEventListener('input', updateCalculation);
+    document.getElementById('podcast-room-slider').addEventListener('input', updateCalculation);
+    document.getElementById('small-studio-slider').addEventListener('input', updateCalculation);
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+      
+      onConfigChange(window.elementSdk.config);
+    } else {
+      onConfigChange(defaultConfig);
+    }
+
+    updateCalculation();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a9cc7bb45c72319',t:'MTc2NTAzNDU2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html
